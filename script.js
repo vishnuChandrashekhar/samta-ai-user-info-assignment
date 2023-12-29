@@ -1,5 +1,5 @@
 
-async function getUsers() {
+async function userInfo() {
   try {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     const data = await response.json();
@@ -11,7 +11,7 @@ async function getUsers() {
 }
 
 
-function displayUsers(users) {
+function disUserInfo(users) {
   const userList = document.getElementById('userList');
   userList.innerHTML = '';
   users.forEach(user => {
@@ -24,35 +24,35 @@ function displayUsers(users) {
 
 
 
-function searchUsers() {
+function srcUserInfo() {
   const searchInput = document.getElementById('search');
   const searchTerm = searchInput.value.trim().toLowerCase();
 
 
-  getUsers().then(users => {
+  userInfo().then(users => {
     const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchTerm));
-    displayUsers(filteredUsers);
+    disUserInfo(filteredUsers);
   });
-  updatePastSearchTerms(searchTerm);
+  updateHistory(searchTerm);
 }
 
 
 
 
-function updatePastSearchTerms(searchTerm) {
+function updateHistory(searchTerm) {
   const pastSearchTerms = JSON.parse(localStorage.getItem('pastSearchTerms')) || [];
   pastSearchTerms.push(searchTerm);
 
   const uniqueSearchTerms = [...new Set(pastSearchTerms)];
 
   localStorage.setItem('pastSearchTerms', JSON.stringify(uniqueSearchTerms));
-  displayPastSearchTerms(uniqueSearchTerms);
+  disUpdateHistory(uniqueSearchTerms);
 }
 
 
 
 
-function displayPastSearchTerms(searchTerms) {
+function disUpdateHistory(searchTerms) {
   const pastSearchTermsList = document.getElementById('pastSearchTerms');
   pastSearchTermsList.innerHTML = ''; 
 
@@ -66,12 +66,12 @@ function displayPastSearchTerms(searchTerms) {
 
 
 function sortByName() {
-  getUsers().then(users => {
+  userInfo().then(users => {
     const sortedUsers = users.slice().sort((a, b) => a.name.localeCompare(b.name));
-    displayUsers(sortedUsers);
+    disUserInfo(sortedUsers);
   });
 }
 
 
-getUsers().then(displayUsers);
-displayPastSearchTerms(JSON.parse(localStorage.getItem('pastSearchTerms')) || []);
+userInfo().then(disUserInfo);
+disUpdateHistory(JSON.parse(localStorage.getItem('pastSearchTerms')) || []);
